@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 import Like from "./common/like";
+import ArrowOrder from "./common/arrowOrder";
 
 function MoviesTable(props) {
-  const { movies, onLikeToggle, onDelete, onSort } = props;
+  const { movies, sortedColumn, onLikeToggle, onDelete, onSort } = props;
 
   if (movies.length === 0) return null;
   const headersName = [
     { key: "title", value: "Titolo" },
-    { key: "genere.name", value: "Genere" },
+    { key: "genre.name", value: "Genere" },
     { key: "numberInStock", value: "Stock" },
     { key: "dailyRentalRate", value: "Rate" },
     { key: null, value: "" },
@@ -29,6 +30,9 @@ function MoviesTable(props) {
               }}
             >
               {el.value}
+              <ArrowOrder
+                order={sortedColumn.path === el.key ? sortedColumn.order : ""}
+              />
             </th>
           ))}
         </tr>
@@ -67,6 +71,7 @@ function MoviesTable(props) {
 
 MoviesTable.propTypes = {
   movies: PropTypes.array.isRequired,
+  sortedColumn: PropTypes.object.isRequired,
   onLikeToggle: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
+import { invertSortType } from "../util/sorter";
+
 import { deleteMovie, getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 
@@ -13,7 +15,10 @@ function Movies() {
   const [genres] = useState([{ name: "All" }, ...getGenres()]);
   const [actualPage, setActualPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState({});
-  const [orderBy, setOrderBy] = useState("title");
+  const [sortedColumn, setSortedColumn] = useState({
+    path: "title",
+    order: "asc",
+  });
 
   const rowsInPage = 4;
 
@@ -22,7 +27,7 @@ function Movies() {
       ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
       : allMovies;
 
-  const sortedMovies = _.orderBy(movies, orderBy);
+  const sortedMovies = _.orderBy(movies, sortedColumn.path, sortedColumn.order);
 
   const firstElementIndex = (actualPage - 1) * rowsInPage;
   const lastElementIndex = actualPage * rowsInPage;
@@ -60,9 +65,12 @@ function Movies() {
     setActualPage(1);
   };
 
-  const handleOnSort = (attribute) => {
-    setOrderBy(attribute);
-    console.log(attribute);
+  const handleOnSort = (path) => {
+    let newSortedColumn = { ...sortedColumn };
+    if (path === newSortedColumn.path)
+      newSortedColumn.order = invertSortType(newSortedColumn.order);
+    else newSortedColumn = { path, order: "asc" };
+    setSortedColumn(newSortedColumn);
   };
 
   return (
@@ -79,6 +87,7 @@ function Movies() {
           {getMessage()}
           <MoviesTable
             movies={pageMovies}
+            sortedColumn={sortedColumn}
             onLikeToggle={handleLikeClick}
             onDelete={handleDeleteMovie}
             onSort={handleOnSort}
