@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { v4 as uuidv4 } from "uuid";
 
 import Like from "./common/like";
-import ArrowOrder from "./common/arrowOrder";
+import TableHeader from "./common/tableHeader";
 
 function MoviesTable(props) {
   const { movies, sortedColumn, onLikeToggle, onDelete, onSort } = props;
@@ -20,23 +19,11 @@ function MoviesTable(props) {
 
   return (
     <table className="table">
-      <thead>
-        <tr>
-          {headersName.map((el) => (
-            <th
-              key={uuidv4()}
-              onClick={() => {
-                if (el.key) onSort(el.key);
-              }}
-            >
-              {el.value}
-              <ArrowOrder
-                order={sortedColumn.path === el.key ? sortedColumn.order : ""}
-              />
-            </th>
-          ))}
-        </tr>
-      </thead>
+      <TableHeader
+        hearersField={headersName}
+        sortedColumn={sortedColumn}
+        onSort={onSort}
+      />
       <tbody>
         {movies.map((el) => (
           <tr id={el._id} key={el._id}>

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import { invertSortType } from "../util/sorter";
-
 import { deleteMovie, getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 
@@ -65,11 +63,7 @@ function Movies() {
     setActualPage(1);
   };
 
-  const handleOnSort = (path) => {
-    let newSortedColumn = { ...sortedColumn };
-    if (path === newSortedColumn.path)
-      newSortedColumn.order = invertSortType(newSortedColumn.order);
-    else newSortedColumn = { path, order: "asc" };
+  const handleOnSort = (newSortedColumn) => {
     setSortedColumn(newSortedColumn);
   };
 
