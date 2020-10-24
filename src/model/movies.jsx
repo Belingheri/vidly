@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import _ from "lodash";
+
 import { deleteMovie, getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
@@ -10,6 +13,7 @@ function Movies() {
   const [genres] = useState([{ name: "All" }, ...getGenres()]);
   const [actualPage, setActualPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState({});
+  const [orderBy, setOrderBy] = useState("title");
 
   const rowsInPage = 4;
 
@@ -18,9 +22,11 @@ function Movies() {
       ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
       : allMovies;
 
+  const sortedMovies = _.orderBy(movies, orderBy);
+
   const firstElementIndex = (actualPage - 1) * rowsInPage;
   const lastElementIndex = actualPage * rowsInPage;
-  const pageMovies = movies.slice(firstElementIndex, lastElementIndex);
+  const pageMovies = sortedMovies.slice(firstElementIndex, lastElementIndex);
 
   const getMessage = () => (
     <h2>
@@ -54,9 +60,14 @@ function Movies() {
     setActualPage(1);
   };
 
+  const handleOnSort = (attribute) => {
+    setOrderBy(attribute);
+    console.log(attribute);
+  };
+
   return (
     <div className="row">
-      <div className="col-2">
+      <div className="col-3">
         <ListGroup
           itemList={genres}
           selectedItem={selectedGenre}
@@ -70,6 +81,7 @@ function Movies() {
             movies={pageMovies}
             onLikeToggle={handleLikeClick}
             onDelete={handleDeleteMovie}
+            onSort={handleOnSort}
           />
           <Pagination
             rowsInPage={rowsInPage}
