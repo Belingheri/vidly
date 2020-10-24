@@ -24,12 +24,12 @@ function TableHeader(props) {
           <th
             key={uuidv4()}
             onClick={() => {
-              if (el.key) handleSort(el.key);
+              if (el.path) handleSort(el.path);
             }}
           >
             {el.value}
             <ArrowOrder
-              order={sortedColumn.path === el.key ? sortedColumn.order : ""}
+              order={sortedColumn.path === el.path ? sortedColumn.order : ""}
             />
           </th>
         ))}
