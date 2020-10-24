@@ -18,6 +18,10 @@ function Movies() {
       ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
       : allMovies;
 
+  const firstElementIndex = (actualPage - 1) * rowsInPage;
+  const lastElementIndex = actualPage * rowsInPage;
+  const pageMovies = movies.slice(firstElementIndex, lastElementIndex);
+
   const getMessage = () => (
     <h2>
       {movies.length > 0
@@ -71,43 +75,37 @@ function Movies() {
                     <th>genere</th>
                     <th>stock</th>
                     <th>rate</th>
-                    <th></th>
-                    <th></th>
+                    <th />
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
-                  {movies.map((el, key) => {
-                    if (
-                      key >= (actualPage - 1) * rowsInPage &&
-                      key < actualPage * rowsInPage
-                    )
-                      return (
-                        <tr id={el._id} key={el._id}>
-                          <td>{el.title}</td>
-                          <td>{el.genre.name}</td>
-                          <td>{el.numberInStock}</td>
-                          <td>{el.dailyRentalRate}</td>
-                          <td>
-                            <Like
-                              onClick={() => {
-                                handleLikeClick(el);
-                              }}
-                              liked={el.liked}
-                            />
-                          </td>
-                          <td>
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => {
-                                deleteElement(el);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                  })}
+                  {pageMovies.map((el) => (
+                    <tr id={el._id} key={el._id}>
+                      <td>{el.title}</td>
+                      <td>{el.genre.name}</td>
+                      <td>{el.numberInStock}</td>
+                      <td>{el.dailyRentalRate}</td>
+                      <td>
+                        <Like
+                          onClick={() => {
+                            handleLikeClick(el);
+                          }}
+                          liked={el.liked}
+                        />
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            deleteElement(el);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <Pagination
