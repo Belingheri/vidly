@@ -7,7 +7,7 @@ import { invertSortType } from "../../util/sorter";
 import ArrowOrder from "./arrowOrder";
 
 function TableHeader(props) {
-  const { hearersField, sortedColumn, onSort } = props;
+  const { columns, sortedColumn, onSort } = props;
 
   const handleSort = (path) => {
     let newSortedColumn = { ...sortedColumn };
@@ -20,7 +20,7 @@ function TableHeader(props) {
   return (
     <thead>
       <tr>
-        {hearersField.map((el) => (
+        {columns.map((el) => (
           <th
             key={uuidv4()}
             onClick={() => {
@@ -39,7 +39,7 @@ function TableHeader(props) {
 }
 
 TableHeader.propTypes = {
-  hearersField: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
   sortedColumn: PropTypes.object.isRequired,
   onSort: PropTypes.func.isRequired,
 };

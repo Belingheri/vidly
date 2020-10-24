@@ -8,7 +8,7 @@ function MoviesTable(props) {
   const { movies, sortedColumn, onLikeToggle, onDelete, onSort } = props;
 
   if (movies.length === 0) return null;
-  const headersName = [
+  const columns = [
     { key: "title", value: "Titolo" },
     { key: "genre.name", value: "Genere" },
     { key: "numberInStock", value: "Stock" },
@@ -20,7 +20,7 @@ function MoviesTable(props) {
   return (
     <table className="table">
       <TableHeader
-        hearersField={headersName}
+        columns={columns}
         sortedColumn={sortedColumn}
         onSort={onSort}
       />
