@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { deleteMovie, getMovies } from "../services/fakeMovieService";
-import Like from "./common/like";
+import { getGenres } from "../services/fakeGenreService";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
-import { getGenres } from "../services/fakeGenreService";
+import MoviesTable from "./moviesTable";
 
 function Movies() {
   const [allMovies, setAllMovies] = useState(getMovies());
@@ -30,12 +30,12 @@ function Movies() {
     </h2>
   );
 
-  const deleteElement = (movie) => {
-    deleteMovie(movie._id);
+  const handleDeleteMovie = (movie) => {
     const newAllMovies = [...allMovies];
-    const index = newAllMovies.indexOf((el) => el._id !== movie._id);
+    const index = newAllMovies.indexOf(movie);
     newAllMovies.splice(index, 1);
     setAllMovies(newAllMovies);
+    deleteMovie(movie._id);
   };
 
   const handleLikeClick = (movie) => {
@@ -66,56 +66,17 @@ function Movies() {
       <div className="col">
         <div className="Movie">
           {getMessage()}
-          {movies.length > 0 && (
-            <div>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>titolo</th>
-                    <th>genere</th>
-                    <th>stock</th>
-                    <th>rate</th>
-                    <th />
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {pageMovies.map((el) => (
-                    <tr id={el._id} key={el._id}>
-                      <td>{el.title}</td>
-                      <td>{el.genre.name}</td>
-                      <td>{el.numberInStock}</td>
-                      <td>{el.dailyRentalRate}</td>
-                      <td>
-                        <Like
-                          onClick={() => {
-                            handleLikeClick(el);
-                          }}
-                          liked={el.liked}
-                        />
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            deleteElement(el);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <Pagination
-                rowsInPage={rowsInPage}
-                actualPage={actualPage}
-                totalRows={movies.length}
-                onChange={handleOnChange}
-              />
-            </div>
-          )}
+          <MoviesTable
+            movies={pageMovies}
+            onLikeToggle={handleLikeClick}
+            onDelete={handleDeleteMovie}
+          />
+          <Pagination
+            rowsInPage={rowsInPage}
+            actualPage={actualPage}
+            totalRows={movies.length}
+            onChange={handleOnChange}
+          />
         </div>
       </div>
     </div>
