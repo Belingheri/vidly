@@ -20,21 +20,28 @@ function Movies() {
 
   const rowsInPage = 4;
 
-  const movies =
-    selectedGenre && selectedGenre._id
-      ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
-      : allMovies;
+  const getPaginateMovies = () => {
+    const movies =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
+        : allMovies;
 
-  const sortedMovies = _.orderBy(movies, sortedColumn.path, sortedColumn.order);
+    const sortedMovies = _.orderBy(
+      movies,
+      sortedColumn.path,
+      sortedColumn.order
+    );
 
-  const firstElementIndex = (actualPage - 1) * rowsInPage;
-  const lastElementIndex = actualPage * rowsInPage;
-  const pageMovies = sortedMovies.slice(firstElementIndex, lastElementIndex);
+    const firstElementIndex = (actualPage - 1) * rowsInPage;
+    const lastElementIndex = actualPage * rowsInPage;
+    const pageMovies = sortedMovies.slice(firstElementIndex, lastElementIndex);
+    return { totalMovies: movies.length, pageMovies };
+  };
 
   const getMessage = () => (
     <h2>
-      {movies.length > 0
-        ? `Sono presenti ${movies.length} film`
+      {totalMovies > 0
+        ? `Sono presenti ${totalMovies} film`
         : "Non sono presenti film"}
     </h2>
   );
@@ -67,6 +74,8 @@ function Movies() {
     setSortedColumn(newSortedColumn);
   };
 
+  const { totalMovies, pageMovies } = getPaginateMovies();
+
   return (
     <div className="row">
       <div className="col-3">
@@ -89,7 +98,7 @@ function Movies() {
           <Pagination
             rowsInPage={rowsInPage}
             actualPage={actualPage}
-            totalRows={movies.length}
+            totalRows={totalMovies}
             onChange={handleOnChange}
           />
         </div>
