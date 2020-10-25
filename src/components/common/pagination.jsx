@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function Pagination({ totalRows, rowsInPage, actualPage, onChange }) {
   const paginationButtons = Math.ceil(totalRows / rowsInPage);
@@ -12,7 +13,7 @@ function Pagination({ totalRows, rowsInPage, actualPage, onChange }) {
     <ul className="pagination">
       {Array.from({ length: paginationButtons }, (_, i) => i + 1).map((v) => (
         <li key={v} className={getClasses(v)}>
-          <a
+          <Link
             className="page-link"
             onClick={() => {
               onChange(v);
@@ -20,7 +21,7 @@ function Pagination({ totalRows, rowsInPage, actualPage, onChange }) {
             href="/#"
           >
             {v}
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
