@@ -6,9 +6,7 @@ import { invertSortType } from "../../util/sorter";
 
 import ArrowOrder from "./arrowOrder";
 
-function TableHeader(props) {
-  const { columns, sortedColumn, onSort } = props;
-
+function TableHeader({ columns, sortedColumn, onSort }) {
   const handleSort = (path) => {
     let newSortedColumn = { ...sortedColumn };
     if (path === newSortedColumn.path)

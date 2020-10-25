@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Like(props) {
-  const { liked, onClick } = props;
-
+function Like({ liked, onClick }) {
   const getClass = () => {
     let className = "fa fa-heart";
     className += liked ? "" : "-o";

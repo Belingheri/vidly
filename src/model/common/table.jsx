@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 
-function Table(props) {
-  const { columns, sortedColumn, onSort, data } = props;
+function Table({ columns, sortedColumn, onSort, data }) {
   return (
     <table className="table">
       <TableHeader

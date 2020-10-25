@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function ArrowOrder(props) {
-  const { order } = props;
-
+function ArrowOrder({ order }) {
   if (order !== "asc" && order !== "desc") return null;
 
   const getClass = () => {

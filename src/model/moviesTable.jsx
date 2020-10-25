@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 import Like from "./common/like";
 import Table from "./common/table";
 
-function MoviesTable(props) {
-  const { movies, sortedColumn, onLikeToggle, onDelete, onSort } = props;
-
+function MoviesTable({ movies, sortedColumn, onLikeToggle, onDelete, onSort }) {
   if (movies.length === 0) return null;
   const columns = [
     { path: "title", value: "Titolo" },

@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function ListGroup(props) {
-  const {
-    itemList,
-    selectedItem,
-    onChange,
-    proprietyName,
-    proprietyKey,
-  } = props;
-
+function ListGroup({
+  itemList,
+  selectedItem,
+  onChange,
+  proprietyName,
+  proprietyKey,
+}) {
   const getClasses = (e) =>
     e === selectedItem ? "list-group-item active" : "list-group-item";
 

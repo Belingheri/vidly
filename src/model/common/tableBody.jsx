@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
-function TableBody(props) {
-  const { data, columns } = props;
-
+function TableBody({ data, columns }) {
   const renderCell = (row, item) => {
     if (item.content) return item.content(row);
 

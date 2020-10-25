@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Pagination(props) {
-  const { totalRows, rowsInPage, actualPage, onChange } = props;
+function Pagination({ totalRows, rowsInPage, actualPage, onChange }) {
   const paginationButtons = Math.ceil(totalRows / rowsInPage);
   if (paginationButtons < 2) return null;
   const getClasses = (pageNumber) => {
