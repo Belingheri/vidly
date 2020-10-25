@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Like from "./common/like";
@@ -7,7 +8,10 @@ import Table from "./common/table";
 function MoviesTable({ movies, sortedColumn, onLikeToggle, onDelete, onSort }) {
   if (movies.length === 0) return null;
   const columns = [
-    { path: "title", value: "Titolo" },
+    {
+      value: "Titolo",
+      content: (el) => <Link to={`/movies/${el._id}`}>{el.title}</Link>,
+    },
     { path: "genre.name", value: "Genere" },
     { path: "numberInStock", value: "Stock" },
     { path: "dailyRentalRate", value: "Rate" },
