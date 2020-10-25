@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Like from "./common/like";
-import TableHeader from "./common/tableHeader";
-import TableBody from "./common/tableBody";
+import Table from "./common/table";
 
 function MoviesTable(props) {
   const { movies, sortedColumn, onLikeToggle, onDelete, onSort } = props;
@@ -41,14 +40,12 @@ function MoviesTable(props) {
   ];
 
   return (
-    <table className="table">
-      <TableHeader
-        columns={columns}
-        sortedColumn={sortedColumn}
-        onSort={onSort}
-      />
-      <TableBody data={movies} columns={columns} />
-    </table>
+    <Table
+      data={movies}
+      columns={columns}
+      sortedColumn={sortedColumn}
+      onSort={onSort}
+    />
   );
 }
 
