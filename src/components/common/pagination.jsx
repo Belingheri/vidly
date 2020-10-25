@@ -18,7 +18,7 @@ function Pagination({ totalRows, rowsInPage, actualPage, onChange }) {
             onClick={() => {
               onChange(v);
             }}
-            href="/#"
+            to="#"
           >
             {v}
           </Link>
