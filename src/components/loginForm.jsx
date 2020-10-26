@@ -1,51 +1,52 @@
 import React, { useState } from "react";
-import Input from "./common/input";
+import Joi from "joi-browser";
+
+import Form from "./common/form";
 
 function LoginForm() {
-  const [account, setAccount] = useState({ username: "", password: "" });
-  const [errors, setErrors] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = ({ currentTarget }) => {
-    const newAccount = { ...account };
-    newAccount[currentTarget.name] = currentTarget.value;
-    setAccount(newAccount);
+  const onSubmit = (e) => {
+    console.log("submit", e);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { username, password } = account;
-    const errors = {};
-
-    if (username.trim() === "") errors.username = "Username necessario";
-    if (password.trim() === "") errors.password = "Password necessaria";
-
-    if (Object.values(errors).length > 0) {
-      return setErrors(errors);
-    }
-
-    console.log("submitted");
+  const structure = [
+    {
+      name: "username",
+      type: "input",
+      attributes: {
+        type: "text",
+        label: "Username",
+      },
+      value: username,
+      setValue: setUsername,
+    },
+    {
+      name: "password",
+      type: "input",
+      attributes: {
+        type: "password",
+        label: "Password",
+      },
+      value: password,
+      setValue: setPassword,
+    },
+  ];
+  const schema = {
+    username: Joi.string().required().label("Username"),
+    password: Joi.string().required().label("Password"),
   };
+
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          name="username"
-          label="Username"
-          value={account.username}
-          error={errors.username}
-          onChange={handleChange}
-        />
-        <Input
-          name="password"
-          label="Password"
-          value={account.password}
-          error={errors.password}
-          type="password"
-          onChange={handleChange}
-        />
-        <button className="btn btn-primary">Invia</button>
-      </form>
+      <Form
+        data={structure}
+        schema={schema}
+        submitButton="Login"
+        onSubmit={onSubmit}
+      />
     </div>
   );
 }
