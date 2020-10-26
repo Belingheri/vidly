@@ -10,6 +10,7 @@ import NavBar from "./components/navbar";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MoviesRoute from "./components/moviesRoute";
+import LoginForm from "./components/loginForm";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <NavBar />
       <main className="container">
         <Switch>
+          <Route path="/login" component={LoginForm} />
           <Route path="/movies" component={MoviesRoute} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
