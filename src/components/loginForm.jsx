@@ -8,7 +8,9 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const onSubmit = (e) => {
-    console.log("submit", e);
+    console.log("submit");
+    console.log("username", username);
+    console.log("password", password);
   };
 
   const structure = [
@@ -34,8 +36,8 @@ function LoginForm() {
     },
   ];
   const schema = {
-    username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    username: Joi.string().min(5).max(20).required().label("Username"),
+    password: Joi.string().min(5).max(20).required().label("Password"),
   };
 
   return (
