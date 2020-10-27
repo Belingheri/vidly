@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import MovieForm from "./movieForm";
 
-function MoviesDetail() {
+function MovieUpdate() {
   const { id } = useParams();
 
   return (
@@ -14,4 +14,4 @@ function MoviesDetail() {
   );
 }
 
-export default MoviesDetail;
+export default MovieUpdate;
