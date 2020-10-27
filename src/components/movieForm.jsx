@@ -26,6 +26,8 @@ function MovieForm({ id }) {
       numberInStock,
       dailyRentalRate: rate,
     };
+    if (id) newMovie._id = id;
+
     saveMovie(newMovie);
     history.replace("/movies");
   };
@@ -81,7 +83,7 @@ function MovieForm({ id }) {
   ];
   const schema = {
     title: Joi.string().min(5).max(20).required().label("Title"),
-    genre: Joi.string().required().label("genre"),
+    genre: Joi.string().required().label("Genre"),
     numberInStock: Joi.number()
       .integer()
       .min(0)
@@ -92,15 +94,12 @@ function MovieForm({ id }) {
   };
 
   return (
-    <div>
-      <h1>New Movie</h1>
-      <Form
-        data={structure}
-        schema={schema}
-        submitButton="Add"
-        onSubmit={onSubmit}
-      />
-    </div>
+    <Form
+      data={structure}
+      schema={schema}
+      submitButton="Save"
+      onSubmit={onSubmit}
+    />
   );
 }
 
