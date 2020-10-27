@@ -28,7 +28,9 @@ function Select({
           value={value}
           {...rest}
         >
-          <option>...</option>
+          <option value="" disabled>
+            ...
+          </option>
           {values.map((option) => (
             <option key={option[propretyId]} value={option[propretyId]}>
               {option[propretyName]}
