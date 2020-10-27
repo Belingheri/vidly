@@ -4,11 +4,11 @@ import Joi from "joi-browser";
 
 import Form from "./common/form";
 import { getGenres } from "../services/fakeGenreService";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
+import { saveMovie } from "../services/fakeMovieService";
 import { useHistory } from "react-router-dom";
 
-function MovieForm({ id }) {
-  const movie = getMovie(id) || {};
+function MovieForm({ movie: inputMovie }) {
+  const movie = inputMovie || {};
 
   const [title, setTitle] = useState(movie.title || "");
   const [genre, setGenre] = useState((movie.genre && movie.genre._id) || "");
@@ -26,7 +26,7 @@ function MovieForm({ id }) {
       numberInStock,
       dailyRentalRate: rate,
     };
-    if (id) newMovie._id = id;
+    if (movie._id) newMovie._id = movie._id;
 
     saveMovie(newMovie);
     history.replace("/movies");
@@ -104,7 +104,7 @@ function MovieForm({ id }) {
 }
 
 MovieForm.propTypes = {
-  id: PropTypes.string,
+  movie: PropTypes.object,
 };
 
 export default MovieForm;

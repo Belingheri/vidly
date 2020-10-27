@@ -1,16 +1,20 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { getMovie } from "../services/fakeMovieService";
 
 import MovieForm from "./movieForm";
 
 function MovieUpdate() {
   const { id } = useParams();
+  const history = useHistory();
+  const movie = getMovie(id);
+  if (!movie) history.replace("/not-found");
 
   return (
     <div className="row">
       <div className="col">
-        <h1>Modifica</h1>
-        <MovieForm id={id} />
+        <h1>Modifica {movie.title}</h1>
+        <MovieForm movie={movie} />
       </div>
     </div>
   );
