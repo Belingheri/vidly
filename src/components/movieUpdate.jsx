@@ -7,9 +7,11 @@ function MovieUpdate() {
   const { id } = useParams();
 
   return (
-    <div className="container">
-      <h1>Modifica</h1>
-      <MovieForm id={id} />
+    <div className="row">
+      <div className="col">
+        <h1>Modifica</h1>
+        <MovieForm id={id} />
+      </div>
     </div>
   );
 }
