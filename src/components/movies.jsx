@@ -8,12 +8,14 @@ import { getGenres } from "../services/fakeGenreService";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
+import SearchBox from "./common/searchBox";
 
 function Movies() {
   const [allMovies, setAllMovies] = useState(getMovies());
   const [genres] = useState([{ name: "All" }, ...getGenres()]);
   const [actualPage, setActualPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
   const history = useHistory();
   const [sortedColumn, setSortedColumn] = useState({
     path: "title",
@@ -23,10 +25,15 @@ function Movies() {
   const rowsInPage = 4;
 
   const getPaginateMovies = () => {
-    const movies =
+    let movies =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((el) => el.genre._id === selectedGenre._id)
         : allMovies;
+
+    if (searchQuery)
+      movies = movies.filter((movie) =>
+        movie.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
 
     const sortedMovies = _.orderBy(
       movies,
@@ -69,11 +76,18 @@ function Movies() {
 
   const handleChangeGenreFilter = (genre) => {
     setSelectedGenre(genre);
+    setSearchQuery("");
     setActualPage(1);
   };
 
   const handleOnSort = (newSortedColumn) => {
     setSortedColumn(newSortedColumn);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setSelectedGenre({});
+    setActualPage(1);
   };
 
   const handleAddMovie = (e) => {
@@ -93,10 +107,11 @@ function Movies() {
       </div>
       <div className="col">
         <div className="Movie">
+          {getMessage()}
           <button className="btn btn-primary" onClick={handleAddMovie}>
             New Movie
           </button>
-          {getMessage()}
+          <SearchBox query={searchQuery} onSearch={handleSearch} />
           <MoviesTable
             movies={pageMovies}
             sortedColumn={sortedColumn}
