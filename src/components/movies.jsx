@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
 import { deleteMovie, getMovies } from "../services/fakeMovieService";
@@ -13,6 +14,7 @@ function Movies() {
   const [genres] = useState([{ name: "All" }, ...getGenres()]);
   const [actualPage, setActualPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState({});
+  const history = useHistory();
   const [sortedColumn, setSortedColumn] = useState({
     path: "title",
     order: "asc",
@@ -74,6 +76,10 @@ function Movies() {
     setSortedColumn(newSortedColumn);
   };
 
+  const handleAddMovie = (e) => {
+    history.push("movies/new");
+  };
+
   const { totalMovies, pageMovies } = getPaginateMovies();
 
   return (
@@ -87,6 +93,9 @@ function Movies() {
       </div>
       <div className="col">
         <div className="Movie">
+          <button className="btn btn-primary" onClick={handleAddMovie}>
+            New Movie
+          </button>
           {getMessage()}
           <MoviesTable
             movies={pageMovies}
