@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Joi from "joi-browser";
 
 import Input from "./input";
+import Select from "./select";
 
 function Form({ data, submitButton, schema, onSubmit }) {
   const [errors, setErrors] = useState({});
@@ -40,7 +41,8 @@ function Form({ data, submitButton, schema, onSubmit }) {
     setErrors(newErrors);
   };
 
-  const renderItem = ({ type, name, value, setValue, attributes }) => {
+  const renderItem = (item) => {
+    const { type, name, value, setValue, attributes } = item;
     switch (type) {
       case "input":
         return (
@@ -50,6 +52,20 @@ function Form({ data, submitButton, schema, onSubmit }) {
             value={value}
             onChange={(e) => handleChange(e, setValue)}
             {...attributes}
+            error={errors[name]}
+          />
+        );
+      case "select":
+        const { propretyName, propretyId } = item;
+        return (
+          <Select
+            key={name}
+            name={name}
+            value={value}
+            onChange={(e) => handleChange(e, setValue)}
+            {...attributes}
+            propretyName={propretyName}
+            propretyId={propretyId}
             error={errors[name]}
           />
         );
