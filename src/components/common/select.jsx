@@ -1,50 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 function Select({
   name,
   label,
-  value,
+  options,
   error,
-  values,
   propretyName,
   propretyId,
   ...rest
 }) {
   return (
-    <React.Fragment>
-      <div className="input-group mb-3">
-        {label && (
-          <div className="input-group-prepend">
-            <label className="input-group-text" htmlFor={name}>
-              {label}
-            </label>
-          </div>
-        )}
-        <select
-          className="custom-select"
-          id={name}
-          name={name}
-          value={value}
-          {...rest}
-        >
-          <option disabled></option>
-          {values.map((option) => (
-            <option key={option[propretyId]} value={option[propretyId]}>
-              {option[propretyName]}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div className="form-group">
+      <label htmlFor={name}>{label}</label>
+      <select name={name} id={name} {...rest} className="form-control">
+        <option value="" />
+        {options.map((option) => (
+          <option key={option[propretyId]} value={option[propretyId]}>
+            {option[propretyName]}
+          </option>
+        ))}
+      </select>
       {error && <div className="alert alert-danger">{error}</div>}
-    </React.Fragment>
+    </div>
   );
 }
 
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   error: PropTypes.string,
-  values: PropTypes.arrayOf(PropTypes.object).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string,
   propretyName: PropTypes.string,
