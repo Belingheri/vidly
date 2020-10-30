@@ -10,6 +10,7 @@ function MoviesTable({ movies, sortedColumn, onLikeToggle, onDelete, onSort }) {
   const columns = [
     {
       value: "Titolo",
+      path: "title",
       content: (el) => <Link to={`/movies/${el._id}`}>{el.title}</Link>,
     },
     { path: "genre.name", value: "Genere" },
