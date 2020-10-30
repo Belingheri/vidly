@@ -18,7 +18,12 @@ export async function deleteMovie(id) {
   return data;
 }
 
-export function saveMovie(movie) {
-  console.log("save toto", movie);
-  return movie;
+export async function saveMovie(movie) {
+  if (movie._id) {
+    const body = { ...movie };
+    delete body._id;
+    return await httpService.put(`${url}/${movie._id}`, body);
+  }
+
+  return await httpService.post(url, movie);
 }
