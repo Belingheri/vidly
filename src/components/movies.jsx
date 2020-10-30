@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-import { deleteMovie, getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { deleteMovie, getMovies } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
@@ -11,8 +11,8 @@ import MoviesTable from "./moviesTable";
 import SearchBox from "./common/searchBox";
 
 function Movies() {
-  const [allMovies, setAllMovies] = useState(getMovies());
-  const [genres] = useState([{ name: "All" }, ...getGenres()]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
   const [actualPage, setActualPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +23,20 @@ function Movies() {
   });
 
   const rowsInPage = 4;
+
+  async function getGenresData() {
+    const allGenres = await getGenres();
+    setGenres([{ name: "All" }, ...allGenres]);
+  }
+  async function getMoviesData() {
+    const allMovies = await getMovies();
+    setAllMovies(allMovies);
+  }
+
+  useEffect(() => {
+    getGenresData();
+    getMoviesData();
+  }, []);
 
   const getPaginateMovies = () => {
     let movies =
