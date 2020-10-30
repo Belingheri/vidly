@@ -13,9 +13,8 @@ export async function getMovie(id) {
   return data;
 }
 
-export async function deleteMovie(id) {
-  const { data } = await httpService.delete(`${url}/${id}`);
-  return data;
+export function deleteMovie(id) {
+  return httpService.delete(`${url}/${id}`);
 }
 
 export async function saveMovie(movie) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
+import { toast } from "react-toastify";
 
 import { deleteMovie, getMovies } from "../services/movieService";
 import { getGenres } from "../services/genreService";
@@ -69,12 +70,18 @@ function Movies() {
     </h2>
   );
 
-  const handleDeleteMovie = (movie) => {
-    const newAllMovies = [...allMovies];
-    const index = newAllMovies.indexOf(movie);
-    newAllMovies.splice(index, 1);
-    setAllMovies(newAllMovies);
-    deleteMovie(movie._id);
+  const handleDeleteMovie = async (movie) => {
+    const originalMovies = [...allMovies];
+    const movies = originalMovies.filter((e) => e._id !== movie._id);
+    setAllMovies(movies);
+    try {
+      await deleteMovie(movie._id);
+    } catch (e) {
+      if (e.response && e.response.status === 404)
+        toast.error("E gia stato cancellato");
+
+      setAllMovies(originalMovies);
+    }
   };
 
   const handleLikeClick = (movie) => {
