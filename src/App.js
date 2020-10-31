@@ -1,8 +1,10 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 //import logo from "./logo.svg";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./components/common/notFound";
 
@@ -16,6 +18,7 @@ import RegisterForm from "./components/registerForm";
 function App() {
   return (
     <div>
+      <ToastContainer />
       <NavBar />
       <main className="container">
         <Switch>
