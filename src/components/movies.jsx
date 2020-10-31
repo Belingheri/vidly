@@ -26,11 +26,11 @@ function Movies() {
   const rowsInPage = 4;
 
   async function getGenresData() {
-    const allGenres = await getGenres();
+    const { data: allGenres } = await getGenres();
     setGenres([{ name: "All" }, ...allGenres]);
   }
   async function getMoviesData() {
-    const allMovies = await getMovies();
+    const { data: allMovies } = await getMovies();
     setAllMovies(allMovies);
   }
 

@@ -3,7 +3,6 @@ import httpService from "./httpService";
 
 const url = `${config.apiEndPoint}genres`;
 
-export async function getGenres() {
-  const { data } = await httpService.get(url);
-  return data;
+export function getGenres() {
+  return httpService.get(url);
 }
