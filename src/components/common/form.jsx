@@ -70,7 +70,13 @@ class Form extends Component {
       />
     );
   }
-
+  /**
+   * renderInput
+   * @description Disegna un input
+   * @param {string} name nome proprieta' di this.state.data
+   * @param {string} label
+   * @param {string} type default "text"
+   */
   renderInput(name, label, type = "text") {
     const { data, errors } = this.state;
 
