@@ -1,56 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
 import Joi from "joi-browser";
 
 import Form from "./common/form";
+import { login } from "./../services/authService";
+import { toast } from "react-toastify";
 
-function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onSubmit = (e) => {
-    console.log("submit");
-    console.log("username", username);
-    console.log("password", password);
+class LoginForm extends Form {
+  state = {
+    data: {
+      username: "",
+      password: "",
+    },
+    errors: "",
   };
 
-  const structure = [
-    {
-      name: "username",
-      type: "input",
-      attributes: {
-        type: "text",
-        label: "Username",
-      },
-      value: username,
-      setValue: setUsername,
-    },
-    {
-      name: "password",
-      type: "input",
-      attributes: {
-        type: "password",
-        label: "Password",
-      },
-      value: password,
-      setValue: setPassword,
-    },
-  ];
-  const schema = {
-    username: Joi.string().min(5).max(20).required().label("Username"),
+  doSubmit = async () => {
+    try {
+      const { data } = this.state;
+      await login(data.username, data.password);
+      window.location = "/";
+    } catch (e) {
+      if (e.response && e.response.status === 400) toast.error(e.response.data);
+    }
+  };
+
+  schema = {
+    username: Joi.string().email().required().label("Username"),
     password: Joi.string().min(5).max(20).required().label("Password"),
   };
-
-  return (
-    <div>
-      <h1>Login</h1>
-      <Form
-        data={structure}
-        schema={schema}
-        submitButton="Login"
-        onSubmit={onSubmit}
-      />
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("username", "Username")}
+          {this.renderInput("password", "Password", "password")}
+          {this.renderButton("Login")}
+        </form>
+      </div>
+    );
+  }
 }
 
 export default LoginForm;
