@@ -1,51 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import Joi from "joi-browser";
 
 import Form from "./common/form";
 
-function RegisterForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+import { register } from "./../services/userService";
 
-  const onSubmit = (e) => {
-    console.log("submit");
+import { toast } from "react-toastify";
+import { loginWithJwt } from "../services/authService";
+
+class RegisterForm extends Form {
+  state = {
+    data: {
+      username: "",
+      name: "",
+      password: "",
+    },
+    errors: {},
   };
 
-  const structure = [
-    {
-      name: "username",
-      type: "input",
-      attributes: {
-        type: "text",
-        label: "Username",
-      },
-      value: username,
-      setValue: setUsername,
-    },
-    {
-      name: "password",
-      type: "input",
-      attributes: {
-        type: "password",
-        label: "Password",
-      },
-      value: password,
-      setValue: setPassword,
-    },
-    {
-      name: "name",
-      type: "input",
-      attributes: {
-        type: "text",
-        label: "Nome",
-      },
-      value: name,
-      setValue: setName,
-    },
-  ];
-  const schema = {
-    username: Joi.string().min(5).max(20).required().label("Username"),
+  doSubmit = async () => {
+    try {
+      const { headers } = await register(this.state.data);
+      loginWithJwt(headers["x-auth-token"]);
+      window.location = "/";
+    } catch (err) {
+      if (err.response && err.response.status === 400)
+        toast.error(err.response.data);
+    }
+  };
+
+  schema = {
+    username: Joi.string().email().required().label("Username"),
     name: Joi.string()
       .min(5)
       .max(20)
@@ -54,18 +39,19 @@ function RegisterForm() {
       .label("Nome"),
     password: Joi.string().min(5).max(20).required().label("Password"),
   };
-
-  return (
-    <div>
-      <h1>Registra</h1>
-      <Form
-        data={structure}
-        schema={schema}
-        submitButton="Registra"
-        onSubmit={onSubmit}
-      />
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <h1>Registra</h1>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("username", "Username")}
+          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Nome")}
+          {this.renderButton("Registra")}
+        </form>
+      </div>
+    );
+  }
 }
 
 export default RegisterForm;
